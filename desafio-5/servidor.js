@@ -1,8 +1,7 @@
 const express = require("express");
-const res = require("express/lib/response");
-const fs = require("fs");
 const Contenedor = require("../contenedor");
 const { Router } = express;
+const { engine } = require('express-handlebars')
 
 const app = express();
 const PORT = 8080;
@@ -12,9 +11,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static(__dirname));
 
+const engienFn = engine({
+  extname: '.hbs',
+  defaultLayout: `${__dirname}/views/index.hbs`,
+  layoutsDir: `${__dirname}/views/layouts`,
+  partialsDir: `${__dirname}/views/partials`
+})
+
+
+app.engine('hbs', engienFn)
+app.set('views', './views')
+app.set('view engine', 'hbs')
+
+
+app.get("/productos", (req, res) => {
+    console.log('hola')
+    res.sendFile(__dirname + "/views/form.html");
+});
+
 router.get("/", async (req, res) => {
   try {
     let contenido = await Contenedor.getAll();
+
     res.json(contenido);
   } catch (error) {
     console.log(error);
@@ -42,8 +60,8 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    let resultado = await Contenedor.updateById(req.params.id, req.body);
-    res.send(resultado);
+    Contenedor.updateById(req.params.id, req.body);
+    res.send("El producto se actualizo");
   } catch (error) {
     console.log(error);
   }
@@ -59,10 +77,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 app.use("/api/productos", router);
-
-app.get("/", () => {
-  res.sendFile(__dirname + "/index.html");
-});
 
 const server = app.listen(PORT, () => {
   Contenedor.setArchivo("./productos.txt");
