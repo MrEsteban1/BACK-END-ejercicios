@@ -52,13 +52,18 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      let index = await datos.findIndex((item) => item.id == id);
-      datos[index] = { ...datos[index], ...data };
-      console.log(index)
-      console.log(datos, );
-     await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
+      let index = await datos.findIndex((item) => item.id === parseInt(id));
+      if(index > 0){
+        datos[index] = { ...datos[index], ...data };
+        console.log(index)
+       await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
+       return 'Se actualizo el dato'
+      } else {
+        return 'No se actualizo el dato'
+      }
     } catch (error) {
       console.log(error);
+      return 'No se actualizo el dato'
     }
   }
 
