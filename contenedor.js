@@ -48,13 +48,15 @@ class Contenedor {
   }
 
   async updateById(id, data) {
+    console.log('pasa por aqui', id)
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      let index = await datos.findIndex((item) => item.id === id);
+      let index = await datos.findIndex((item) => item.id == id);
       datos[index] = { ...datos[index], ...data };
-      console.log((datos[index] = { ...datos[index], ...data }));
-      await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
+      console.log(index)
+      console.log(datos, );
+     await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
     } catch (error) {
       console.log(error);
     }
