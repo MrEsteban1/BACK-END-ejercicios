@@ -1,7 +1,7 @@
 const express = require("express");
 const Contenedor = require("../contenedor");
 const { Router } = express;
-const { engine } = require('express-handlebars')
+const { engine } = require("express-handlebars");
 
 const app = express();
 const PORT = 8080;
@@ -12,28 +12,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static(__dirname));
 
 const engienFn = engine({
-  extname: '.hbs',
+  extname: ".hbs",
   defaultLayout: `${__dirname}/views/index.hbs`,
   layoutsDir: `${__dirname}/views/layouts`,
-  partialsDir: `${__dirname}/views/partials`
-})
+});
 
-
-app.engine('hbs', engienFn)
-app.set('views', './views')
-app.set('view engine', 'hbs')
-
+app.engine("hbs", engienFn);
+app.set("views", "./views");
+app.set("view engine", "hbs");
 
 app.get("/productos", (req, res) => {
-    console.log('hola')
-    res.sendFile(__dirname + "/views/form.html");
+  console.log("hola");
+  res.render("form");
 });
 
 router.get("/", async (req, res) => {
   try {
     let contenido = await Contenedor.getAll();
-
-    res.json(contenido);
+    res.render("layouts/productos", { productos: contenido });
   } catch (error) {
     console.log(error);
   }
