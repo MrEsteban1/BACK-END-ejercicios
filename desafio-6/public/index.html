@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carga de Producto</title>
+  </head>
+  <body>
+    <section class="container">
+      <form
+        class="form"
+        action="/productos"
+        enctype="application/json"
+        method="POST"
+      >
+        <h2>Carga un producto:</h2>
+        <label for="titleProduct">Title:</label>
+        <input type="text" id="fname" name="title" /><br /><br />
+        <label for="priceProduct">Price:</label>
+        <input type="text" id="lname" name="price" /><br /><br />
+        <label for="imgURL">Thumbnail:</label>
+        <input type="text" id="thumbnail" name="thumbnail" /><br /><br />
+        <input type="submit" value="Enviar" />
+      </form>
+    </section>
+    <div class="Subcontainer">
+      <h2>Productos ingresados</h2>
+      <table ">
+          <thead>
+          <tr>
+              <th >ID</th>
+              <th >Nombre</th>
+              <th >Precio</th>
+              <th >Imagen</th>       
+          </tr>
+          </thead>
+          <tbody id="products-table">
+          </tbody>
+      </table>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./index.js"></script>
+  <script src="./ejs.js"></script>
+  </body>
+</html>
