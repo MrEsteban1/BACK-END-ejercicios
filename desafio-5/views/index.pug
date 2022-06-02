@@ -1,0 +1,19 @@
+html
+    head 
+        title Productos
+        style
+            include style.css
+    body 
+        include ./partials/header
+        h2 Ingrese un producto
+        form(action="/productos" method="post" class="myForm" enctype="application/json")
+            div(class="form-group")
+                label(for="title") Nombre
+                input(type="text" name="title" class="form-control")
+            div(class="form-group")
+                label(for="price") Precio
+                input(type="number" name="price" class="form-control")
+            div(class="form-group")
+                label(for="thumbnail") Imagen del producto
+                input(type="text" name="thumbnail" class="form-control")
+            button(type="submit" class="btn btn-primary") Enviar

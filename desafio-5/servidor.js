@@ -22,7 +22,6 @@ app.set("views", "./views");
 app.set("view engine", "hbs");
 
 app.get("/productos", (req, res) => {
-  console.log("hola");
   res.render("form");
 });
 
@@ -30,43 +29,6 @@ router.get("/", async (req, res) => {
   try {
     let contenido = await Contenedor.getAll();
     res.render("layouts/productos", { productos: contenido });
-  } catch (error) {
-    console.log(error);
-  }
-});
-router.get("/:id", async (req, res) => {
-  let id = req.params.id || -1;
-  try {
-    let contenido = await Contenedor.readById(id);
-    res.json(
-      contenido !== null ? contenido : { error: "producto no encontrado" }
-    );
-  } catch (error) {
-    console.log(error);
-  }
-});
-router.post("/", async (req, res) => {
-  try {
-    await Contenedor.addRegister(req.body);
-    res.send("Se subio el producto");
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  try {
-    Contenedor.updateById(req.params.id, req.body);
-    res.send("El producto se actualizo");
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  try {
-    let resultado = await Contenedor.deleteByID(req.params.id);
-    res.send(resultado);
   } catch (error) {
     console.log(error);
   }

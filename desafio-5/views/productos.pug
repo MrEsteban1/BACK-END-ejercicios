@@ -1,0 +1,27 @@
+html 
+    head 
+        style
+            include style.css
+            
+    body 
+        include ./partials/header
+        section  
+            h2 Productos ingresados
+            table(style={display:flex, background:'black'})
+                thead 
+                    tr
+                        th ID
+                        th Nombre 
+                        th Precio 
+                        th Imagen 
+                tbody 
+                each producto in productos
+                    tr 
+                    th=producto.id
+                        th=producto.title
+                        th=producto.price
+                        th
+                            img(src=producto.thumbnail)
+                        
+            
+
