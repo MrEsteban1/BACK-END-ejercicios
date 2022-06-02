@@ -8,10 +8,10 @@ const PORT = 8080
 
 let productos = [
     {
-        title: "Fender Stratocaster",
-        price: 150000,
-        thumbnail: "https://findicons.com/files/icons/876/stratocaster_guitars/128/stratocaster_guitar_love.png",
-        id: 1,
+        title: "Pañal",
+        price: 150,
+        thumbnail: "http://static1.abc.es/Media/201405/19/panal--644x362.jpg",
+        id: 0,
     }, 
 ]
 
@@ -35,9 +35,13 @@ app.get('/',(req,res)=>{
 
 app.post("/productos", (req, res)=>{
     req.body
-    productos = [...productos,req.body]
+    productos = [...productos,{id:productos.length,...req.body}]
     console.log("Datos de productos: ", productos)
     io.emit("productos", productos)
+})
+
+app.post("/mensaje",(req,res)=>{
+    
 })
 
 httpServer.listen(PORT,()=> {
@@ -45,12 +49,16 @@ httpServer.listen(PORT,()=> {
 })
 
 io.on('connection', async (socket) => {
-    io.emit("productos", productos)
+    socket.emit("productos", productos)
     console.log('Usuario conectado ' + socket.id)
     // io.emit('mensaje bienvenida', 'Bienvenido al chat')
     // io.emit("mensajes", mensajes)
-    io.on("agregar producto", data => {
-        io.emit("nuevo producto", data)
+    // io.on("agregar producto", data => {
+    //     io.emit("nuevo producto", data)
+    // })
+    socket.on("nueva conexion", () =>{
+        console.log('pasa por nueva conexion')
+        io.emit("productos", productos)
     })
 })
 
