@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="./style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Productos</title>
   </head>
   <body>
-    <section >
+    <section>
       <form
         class="form"
         action="/productos"
@@ -16,43 +17,64 @@
       >
         <h2>Ingresar producto:</h2>
         <label for="titleProduct">Title:</label>
-        <input type="text" id="fname" name="title" /><br /><br />
-        <label for="priceProduct">Price:</label>
-        <input type="text" id="lname" name="price" /><br /><br />
+        <input
+          type="text"
+          id="fname"
+          class="dato-producto"
+          name="title"
+        /><br /><br />
+        <label for="priceProduct" class="dato-producto">Price:</label>
+        <input
+          type="text"
+          id="lname"
+          name="price"
+          class="dato-producto"
+        /><br /><br />
         <label for="imgURL">Thumbnail:</label>
-        <input type="text" id="thumbnail" name="thumbnail" /><br /><br />
+        <input
+          type="text"
+          id="thumbnail"
+          name="thumbnail"
+          class="dato-producto"
+        /><br /><br />
         <input type="submit" id="form-subir" value="Enviar" />
       </form>
     </section>
     <section id="products-section">
-        <div>
-          <h2>Productos ingresados</h2>
-          <table >
-              <thead>
-              <tr>
-                  <th >ID</th>
-                  <th >Nombre</th>
-                  <th >Precio</th>
-                  <th >Imagen</th>       
-              </tr>
-              </thead>
-              <tbody id="products-table">
-              </tbody>
-          </table>
-      </div>  
+      <div>
+        <h2>Productos ingresados</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Imagen</th>
+            </tr>
+          </thead>
+          <tbody id="products-table"></tbody>
+        </table>
+        <i></i>
+      </div>
     </section>
-    <section class="mensaje-section">
+    <section id="mensaje-section">
       <div>
         <h2>Mensajes</h2>
         <label for="email">Email</label>
-        <input type="text">
+        <input type="text" id="input-email" />
+      </div>
+      <div class="mensajes-screen">
+        <ul id="mensaje-list"></ul>
+      </div>
+      <div>
+        <label for="email">Mensaje</label>
+        <input type="text" id="input-mensaje" />
         <button id="mensaje-text-send">Enviar</button>
       </div>
 
-      <ul class="chat-list">      
-      </ul>
+      <ul class="chat-list"></ul>
     </section>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./index.js"></script>
   </body>
 </html>
