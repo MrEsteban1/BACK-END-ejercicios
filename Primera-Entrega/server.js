@@ -1,20 +1,48 @@
 const express = require("express");
-const {Router} = express
+const Carritos = require("./apiCarrito");
+const Productos = require("./apiProductos");
 
-const app = express()
-PORT = 8080; 
+const { Router } = express;
 
-const router_productos = Router()
+const app = express();
+PORT = 8080;
 
-router_productos.get('/:id?', (req,res)=>{
-    console.log("Req: " + !!req.params.id )
-    
-})
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.use("/api/productos", router_productos)
+const router_productos = Router();
+const router_carrito = Router();
 
-const server = app.listen(PORT, ()=>{
-    console.log(`Servidor escuchando en el puerto ${PORT}`)
-})
+router_productos.get("/:id?", (req, res) => {
+  return Productos.getProducts(req, res);
+});
 
-server.on("error", error => console.log(`Error en servidor: ${error}`))
+router_productos.post("/", (req, res) => {
+  return Productos.addProduct(req, res);
+});
+
+router_productos.put("/:id", (req, res) => {
+  return Productos.updateProduct(req, res);
+});
+
+router_productos.delete("/:id", (req, res) => {
+  return Productos.deleteProduct(req, res);
+});
+
+router_carrito.post("/", async (req, res) => {
+  console.log(req.body);
+  return await Carritos.addCarrito(req, res);
+});
+
+router_carrito.get("/", async (req, res) => {
+  console.log("hola");
+  return;
+});
+
+app.use("/api/productos", router_productos);
+app.use("/api/carrito", router_carrito);
+
+const server = app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
+server.on("error", (error) => console.log(`Error en servidor: ${error}`));
