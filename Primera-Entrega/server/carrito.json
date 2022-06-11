@@ -11,6 +11,15 @@
         "code": "2141sd",
         "stock": "5",
         "id": 4
+      },
+      {
+        "name": "Lampara",
+        "price": "2500",
+        "desc": "Bajo",
+        "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRhlKJgp5ko3-k4CGhbibj2RYUKuaTOk2tXzQw8452UpfuMc-xicMUErQXjciEjfStqGY&usqp=CAU",
+        "code": "2141sd",
+        "stock": "5",
+        "id": 7
       }
     ]
   },
@@ -25,6 +34,32 @@
         "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRhlKJgp5ko3-k4CGhbibj2RYUKuaTOk2tXzQw8452UpfuMc-xicMUErQXjciEjfStqGY&usqp=CAU",
         "code": "2141sd",
         "stock": "5",
+        "id": 4
+      }
+    ]
+  },
+  {
+    "id": 1654609937011,
+    "timestamp": 1654565554505,
+    "productos": [
+      {
+        "nombre": "Muñeca",
+        "precio": "250",
+        "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRhlKJgp5ko3-k4CGhbibj2RYUKuaTOk2tXzQw8452UpfuMc-xicMUErQXjciEjfStqGY&usqp=CAU",
+        "stock": "5",
+        "id": 4
+      }
+    ]
+  },
+  {
+    "id": 1654612498492,
+    "timestamp": 1654565554505,
+    "productos": [
+      {
+        "nombre": "Destornillador",
+        "precio": "450",
+        "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRhlKJgp5ko3-k4CGhbibj2RYUKuaTOk2tXzQw8452UpfuMc-xicMUErQXjciEjfStqGY&usqp=CAU",
+        "stock": "3",
         "id": 4
       }
     ]

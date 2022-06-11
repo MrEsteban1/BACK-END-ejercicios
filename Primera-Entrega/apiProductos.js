@@ -1,29 +1,42 @@
+const Contenedor = require("./server/contenedor")
+
 class Productos {
-  constructor(productos = []) {
-    this.productos = productos;
+  constructor() {
+    Contenedor.setArchivo("./server/prodductos.json")
   }
 
-  setProduct(data) {
-    this.productos = [...data];
-  }
+    async getProducts(req, res) {
+      const id = req.params.id
+      try {
+        if(!!id){
+          let resultado = Contenedor.readById(id)
+          console.log(resultado)
+          res.json(resultado)
+          return
+        } 
+          let resultado = Contenedor.getAll()
+          res.json(resultado)
+          return
+      } catch (error) {
+        console.log(error)
+        res.status("400").send("No se pudo cargar")
+      }
 
-  async getProducts(req, res) {
-    console.log(Date.now());
-    if (!!req.params.id) {
-      res.json([
-        await this.productos.find((dato) => dato.id === req.params.id),
-      ]);
-    }
-    res.json(this.productos);
-    return this.productos;
+    return;
   }
 
   addProduct(req, res) {
-    if (!!!req.body.title) {
-      res.json({ estado: "No se envio informacion correcta " });
+    if (!!!req.body.administrador) {
+      res.json({ estado: "No es administrador " });
       return;
     }
-    if (req.body.data.title) {
+    if(!!req.body.data.title) return res.json("No se envio informacion correcta");
+    try {
+      let resultado = await Contenedor.addRegister({id: Date.now(),...req.params.body})
+    } catch (error) {
+      
+    }
+    if(req.body.data.title) {
       this.productos.push({ id: Date.now(), ...req.body.data });
       res.json(JSON.stringify(this.productos));
     } else {

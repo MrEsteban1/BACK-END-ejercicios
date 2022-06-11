@@ -29,15 +29,27 @@ router_productos.delete("/:id", (req, res) => {
   return Productos.deleteProduct(req, res);
 });
 
+router_carrito.post("/:id/producto", async (req,res)=>{
+  return await Carritos.addProduct(req,res)
+})
+
 router_carrito.post("/", async (req, res) => {
   console.log(req.body);
   return await Carritos.addCarrito(req, res);
 });
 
-router_carrito.get("/", async (req, res) => {
+router_carrito.get("/:id", async (req, res) => {
   console.log("hola");
-  return;
+  return await Carritos.getCarrito(req,res);
 });
+
+router_carrito.delete("/:id",async (req,res)=>{
+  return await Carritos.deleteCarrito(req,res)
+})
+
+router_carrito.delete("/:id/productos/:id_prod", async(req,res)=>{
+  return await Carritos.deleteProduct(req,res)
+})
 
 app.use("/api/productos", router_productos);
 app.use("/api/carrito", router_carrito);

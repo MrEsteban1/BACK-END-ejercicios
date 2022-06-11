@@ -1,3 +1,4 @@
+const res = require("express/lib/response");
 const fs = require("fs");
 
 class Contenedor {
@@ -56,7 +57,7 @@ class Contenedor {
       if (index > 0) {
         datos[index] = { ...datos[index], ...data };
         console.log(index);
-        await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
+        await fs.promises.writeFile(this.archivo, JSON.stringify(datos,0,2));
         return "Se actualizo el dato";
       } else {
         return "No se actualizo el dato";
@@ -73,14 +74,18 @@ class Contenedor {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
       let index = await datos.findIndex((item) => item.id === parseInt(id));
-      if (!(index > 0)) return false;
+      
+      if (!(index > -1)) return false;
+      
       datos[index] = {
         ...datos[index],
-        productos: [...data.productos, { ...producto }],
+        productos: [...datos[index].productos, { ...producto }],
       };
-      await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
+      
+      await fs.promises.writeFile(this.archivo, JSON.stringify(datos,0,2));
+      return true
     } catch (error) {
-      console.log(error);
+      
       return false;
     }
   }
@@ -89,10 +94,11 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      console.log("Resultado de ID: ", datos[id - 1] || null);
-      return datos[id] || null;
+      let resultado = datos.filter( dato => dato.id === parseInt(id))
+      console.log("Resultado de ID: ", resultado);
+      return resultado;
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 
@@ -101,9 +107,7 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       datos = JSON.parse(contenido);
-      console.log("Todos los datos: ", datos);
     } catch (error) {
-      console.log("No se leyo los datos por: ", error);
     }
 
     return datos;
@@ -132,7 +136,7 @@ class Contenedor {
 
       if (existeDato < 0) return "No existe producto";
       datos = await datos.filter((dato) => dato.id != id);
-      await fs.promises.writeFile(this.archivo, JSON.stringify(datos));
+      await fs.promises.writeFile(this.archivo, JSON.stringify(datos,0,2));
       return "Se elimino el dato por el id.";
     } catch (error) {
       console.log(error);
@@ -144,6 +148,27 @@ class Contenedor {
       fs.promises.unlink(this.archivo);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async eliminateProductoCarrito(idCarrito, idProducto){
+    try {
+      console.log(idCarrito)
+      let contenido = await fs.promises.readFile(this.archivo, "utf-8")
+      let datos = JSON.parse(contenido)
+      let index = await datos.findIndex(dato => dato.id === parseInt(idCarrito))
+      console.log(index)
+      if(index > -1){
+        datos[index].productos = await datos[index].productos.filter( producto => producto.id !== parseInt(idProducto)) 
+        console.log(datos[index])       
+        await fs.promises.writeFile(this.archivo,JSON.stringify(datos,0,2))
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return false
     }
   }
 }

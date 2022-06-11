@@ -9,6 +9,7 @@ class Carrito {
     try {
       let resultado = await Contenedor.addRegister(req.body);
       console.log(resultado);
+      res.send("Cargado exitosamente")
     } catch (error) {
       console.log(error);
       res.status(400).send({ error: "No pudo crear el carrito" });
@@ -17,39 +18,52 @@ class Carrito {
 
   async addProduct(req, res) {
     try {
-      let resultado = await Contenedor.addProductCarrito(req.body);
-      if (resultado) res.status(400).send({ error: "No se encontro el dato" });
+      let resultado = await Contenedor.addProductCarrito(req.params.id, req.body);
+      !resultado ? res.status(400).send({ error: "No se encontro el dato" }) : res.send("cargado");
     } catch (error) {
       console.log(error);
       res.status(400).send({ error: "No pudo cargarse los productos" });
     }
-
-    this.productos.push({
-      id: parseInt(Date.now()) + 1,
-      timestamp: Date.now(),
-      ...req.body.data,
-    });
-    res.send("cargado");
     return;
   }
 
-  async getProducts(req, res) {
-    const id = req.params.id;
-    if (!!id) {
-      res.json(this.productos.filter((dato) => dato.id === id));
-      return;
-    } else return res.json(this.productos);
+  async getCarrito(req, res) {
+    try {
+      const id = req.params.id;
+      if (!!id) {
+        const datos = await Contenedor.readById(id)
+        res.json(datos)
+        console.log(datos)
+        return;
+      }
+    }
+     catch(error) {
+      console.log(error)
+      res.status(400).send("No se pudo conseguir los productos")
+    }
   }
 
-  deleteProduct() {
-    const index = this.productos.findIndex(
-      (e) => e.id === parseInt(req.params.id)
-    );
+  async deleteCarrito(req,res){
+      try {
+        const id = req.params.id
+        await Contenedor.deleteByID(id)
+        res.send("Borrado exitosamente")
+      } catch (error) {
+        console.log(error)
+        res.status(400).send("No se pudo borrar el carrito")
+      }
+  } 
 
-    this.productos.splice(index, 1);
-
-    res.send("Se borro el dato");
-    return;
+  async deleteProduct(req,res) {
+    let resultado
+    try {
+      resultado = await Contenedor.eliminateProductoCarrito(req.params.id,req.params.id_prod);
+      (resultado) ? res.send("Se pudo eliminar") : res.status(400).send("No se encontró producto para eliminar")
+    } catch (error) {
+      res.status(400).send("Error al intentar elminar")
+      console.log(error)
+      return
+    }
   }
 }
 
