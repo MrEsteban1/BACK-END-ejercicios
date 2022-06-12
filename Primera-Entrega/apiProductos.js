@@ -53,47 +53,72 @@ class Productos {
     }
   }
 
-  updateProduct(req, res) {
+  async updateProduct(req, res) {
+    const id = req.body.data.id;
+    console.log(req.body.data);
     if (!!!req.body.administrador) {
-      res.json({ estado: "No se permite la accion" });
+      res.json({ estado: "error", descripcion: "No se permite la accion" });
       return;
     }
-    if (!!!req.body.data.title) {
-      res.json({ estado: "No se envio informacion correcta " });
+    if (!!!id) {
+      res.json({
+        estado: "error",
+        descripcion: "No se envio informacion correcta ",
+      });
       return;
     }
-    const index = this.productos.findIndex(
-      (e) => e.id === parseInt(req.params.id)
-    );
-    console.log(index, req.params.id, this.productos[0]);
-    if (index !== -1) {
-      this.productos[index] = {
-        id: index,
-        ...this.productos[index],
-        ...req.body.data,
-      };
-      console.log(this.productos[index]);
-      res.send("Se pudo acttualizar el dato.");
+    try {
+      let resultado = await Contenedor.updateById(id, req.body.data);
+      console.log("resultarod " + resultado);
+      return resultado
+        ? res.json({
+            estado: "OK",
+            descripcion: "Se pudo acttualizar el dato.",
+          })
+        : res.json({
+            estado: "error",
+            descripcion: "No se encontro el producto",
+          });
+    } catch (error) {
+      res.json({
+        estado: "error",
+        descripcion: "Hubo un error al actualizar el dato",
+      });
       return;
     }
-    res.send("No se dio el caso");
+
     return;
   }
 
-  deleteProduct(req, res) {
+  async deleteProduct(req, res) {
+    const id = req.params.id;
+    if (!!!req.body.administrador) {
+      res.json({ estado: "error", descripcion: "No se permite la accion" });
+      return;
+    }
+    if (!!!id) {
+      res.json({
+        estado: "error",
+        descripcion: "No se envio informacion correcta ",
+      });
+      return;
+    }
+    try {
+      let resultado = await Contenedor.deleteByID(id);
+      resultado
+        ? res.json({ estado: "OK", descripcion: "Se borro el producto." })
+        : res.json({ estado: "error", descripcion: "No se encontro el id" });
+    } catch (error) {
+      res.json({
+        estado: "error",
+        descripcion: "No se pudo borrar",
+        error: error,
+      });
+    }
     if (!!!req.body.administrador) {
       res.json({ estado: "No se permite la accion" });
       return;
     }
-
-    const index = this.productos.findIndex(
-      (e) => e.id === parseInt(req.params.id)
-    );
-
-    this.productos.splice(index, 1);
-
-    res.send("Se borro el dato");
-    return;
   }
 }
 

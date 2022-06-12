@@ -53,18 +53,22 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      let index = await datos.findIndex((item) => item.id === parseInt(id));
-      if (index > 0) {
+
+      let index = await datos.findIndex(
+        (item) => parseInt(item.id) === parseInt(id)
+      );
+      if (index >= 0) {
         datos[index] = { ...datos[index], ...data };
-        console.log(index);
-        await fs.promises.writeFile(this.archivo, JSON.stringify(datos,0,2));
-        return "Se actualizo el dato";
+        await fs.promises.writeFile(this.archivo, JSON.stringify(datos, 0, 2));
+        return true;
       } else {
-        return "No se actualizo el dato";
+        console.log(datos);
+        console.log(index);
+        return false;
       }
     } catch (error) {
       console.log(error);
-      return "No se actualizo el dato";
+      return false;
     }
   }
 
@@ -74,18 +78,17 @@ class Contenedor {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
       let index = await datos.findIndex((item) => item.id === parseInt(id));
-      
+
       if (!(index > -1)) return false;
-      
+
       datos[index] = {
         ...datos[index],
         productos: [...datos[index].productos, { ...producto }],
       };
-      
-      await fs.promises.writeFile(this.archivo, JSON.stringify(datos,0,2));
-      return true
+
+      await fs.promises.writeFile(this.archivo, JSON.stringify(datos, 0, 2));
+      return true;
     } catch (error) {
-      
       return false;
     }
   }
@@ -94,11 +97,13 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      let resultado = datos.filter( dato => dato.id === parseInt(id))
+      let resultado = datos.filter(
+        (dato) => parseInt(dato.id) === parseInt(id)
+      );
       console.log("Resultado de ID: ", resultado);
       return resultado;
     } catch (error) {
-      return error
+      return error;
     }
   }
 
@@ -107,8 +112,7 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       datos = JSON.parse(contenido);
-    } catch (error) {
-    }
+    } catch (error) {}
 
     return datos;
   }
@@ -132,14 +136,17 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      const existeDato = datos.findIndex((dato) => dato.id === Number(id));
+      const existeDato = datos.findIndex(
+        (dato) => parseInt(dato.id) === parseInt(id)
+      );
 
-      if (existeDato < 0) return "No existe producto";
-      datos = await datos.filter((dato) => dato.id != id);
-      await fs.promises.writeFile(this.archivo, JSON.stringify(datos,0,2));
-      return "Se elimino el dato por el id.";
+      if (existeDato < 0) return false;
+      datos = await datos.filter((dato) => parseInt(dato.id) != parseInt(id));
+      await fs.promises.writeFile(this.archivo, JSON.stringify(datos, 0, 2));
+      return true;
     } catch (error) {
       console.log(error);
+      return false;
     }
   }
 
@@ -151,24 +158,28 @@ class Contenedor {
     }
   }
 
-  async eliminateProductoCarrito(idCarrito, idProducto){
+  async eliminateProductoCarrito(idCarrito, idProducto) {
     try {
-      console.log(idCarrito)
-      let contenido = await fs.promises.readFile(this.archivo, "utf-8")
-      let datos = JSON.parse(contenido)
-      let index = await datos.findIndex(dato => dato.id === parseInt(idCarrito))
-      console.log(index)
-      if(index > -1){
-        datos[index].productos = await datos[index].productos.filter( producto => producto.id !== parseInt(idProducto)) 
-        console.log(datos[index])       
-        await fs.promises.writeFile(this.archivo,JSON.stringify(datos,0,2))
-        return true
+      console.log(idCarrito);
+      let contenido = await fs.promises.readFile(this.archivo, "utf-8");
+      let datos = JSON.parse(contenido);
+      let index = await datos.findIndex(
+        (dato) => dato.id === parseInt(idCarrito)
+      );
+      console.log(index);
+      if (index > -1) {
+        datos[index].productos = await datos[index].productos.filter(
+          (producto) => producto.id !== parseInt(idProducto)
+        );
+        console.log(datos[index]);
+        await fs.promises.writeFile(this.archivo, JSON.stringify(datos, 0, 2));
+        return true;
       } else {
-        return false
+        return false;
       }
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
   }
 }
