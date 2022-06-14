@@ -1,7 +1,7 @@
 const res = require("express/lib/response");
 const fs = require("fs");
 
-class Contenedor {
+module.exports = class Contenedor {
   constructor() {
     this.archivo = "";
   }
@@ -43,8 +43,25 @@ class Contenedor {
         JSON.stringify(datosNuevos, 0, 2)
       );
       console.log("datos", datosNuevos);
+      return true;
     } catch (error) {
-      return error;
+      return false;
+    }
+  }
+
+  async addCarrito(data) {
+    const id = Date.now();
+    try {
+      let contenido = await fs.promises.readFile(this.archivo, "utf-8");
+      let datos = JSON.parse(contenido);
+      let datosNuevos = [...datos, { ...data, id: id }];
+      await fs.promises.writeFile(
+        this.archivo,
+        JSON.stringify(datosNuevos, 0, 2)
+      );
+      return id;
+    } catch (error) {
+      return false;
     }
   }
 
@@ -77,8 +94,10 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      let index = await datos.findIndex((item) => item.id === parseInt(id));
-
+      let index = await datos.findIndex(
+        (item) => parseInt(item.id) === parseInt(id)
+      );
+      console.log("index: " + index);
       if (!(index > -1)) return false;
 
       datos[index] = {
@@ -97,10 +116,7 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let datos = JSON.parse(contenido);
-      let resultado = datos.filter(
-        (dato) => parseInt(dato.id) === parseInt(id)
-      );
-      console.log("Resultado de ID: ", resultado);
+      let resultado = datos.find((dato) => parseInt(dato.id) === parseInt(id));
       return resultado;
     } catch (error) {
       return error;
@@ -112,7 +128,11 @@ class Contenedor {
     try {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       datos = JSON.parse(contenido);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      console.log("archivo: " + this.archivo);
+      return error;
+    }
 
     return datos;
   }
@@ -123,7 +143,7 @@ class Contenedor {
       let contenido = await fs.promises.readFile(this.archivo, "utf-8");
       let productos = JSON.parse(contenido);
       let id = Math.floor(Math.random() * (productos.length - 1 - 0) + 0);
-      console.log("NUMERO ID: ", id);
+
       producto = productos[id];
     } catch (error) {
       console.log(error);
@@ -169,7 +189,7 @@ class Contenedor {
       console.log(index);
       if (index > -1) {
         datos[index].productos = await datos[index].productos.filter(
-          (producto) => producto.id !== parseInt(idProducto)
+          (producto) => parseInt(producto.id) !== parseInt(idProducto)
         );
         console.log(datos[index]);
         await fs.promises.writeFile(this.archivo, JSON.stringify(datos, 0, 2));
@@ -182,6 +202,6 @@ class Contenedor {
       return false;
     }
   }
-}
+};
 
-module.exports = new Contenedor();
+//module.exports = new Contenedor();

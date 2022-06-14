@@ -2,31 +2,33 @@ const Contenedor = require("./server/contenedor");
 
 class Productos {
   constructor() {
-    Contenedor.setArchivo("./server/productos.json");
+    this.contenedor = new Contenedor("./server/productos.json");
+    this.contenedor.setArchivo("./server/productos.json");
   }
 
   async getProducts(req, res) {
     const id = req.params.id;
     try {
       if (!!id) {
-        let resultado = await Contenedor.readById(id);
-        console.log(resultado);
+        let resultado = await this.contenedor.readById(id);
+
         res.json(resultado);
         return;
       }
-      let resultado = await Contenedor.getAll();
+      let resultado = await this.contenedor.getAll();
+
       res.json(resultado);
       return;
     } catch (error) {
       console.log(error);
-      res.status("400").send("No se pudo cargar");
+      res.json({ descripcion: "No se pudo cargar" });
     }
 
     return;
   }
 
   async addProduct(req, res) {
-    console.log(req.body.administrador, !!!req.body.administrador);
+    console.log(req.body.data, !!!req.body.administrador);
     if (!!!req.body.administrador) {
       res.json({
         estado: "error",
@@ -34,18 +36,19 @@ class Productos {
       });
       return;
     }
-    if (!!req.body.data.nombre !== "")
+    if (!!(req.body.data.nombre === ""))
       return res.json({
         estado: "error",
-        descripcion: "No se envio informacion correcta",
+        descripcion: "No se envio informacion correcta aqui",
       });
     try {
-      let resultado = await Contenedor.addRegister({
+      let resultado = await this.contenedor.addRegister({
         id: Date.now(),
         ...req.body.data,
       });
       return res.json({ estado: "OK" });
     } catch (error) {
+      console.log(error);
       return res.json({
         estado: "error",
         descripcion: "Error en la carga de producto",
@@ -68,7 +71,7 @@ class Productos {
       return;
     }
     try {
-      let resultado = await Contenedor.updateById(id, req.body.data);
+      let resultado = await this.contenedor.updateById(id, req.body.data);
       console.log("resultarod " + resultado);
       return resultado
         ? res.json({
@@ -104,7 +107,7 @@ class Productos {
       return;
     }
     try {
-      let resultado = await Contenedor.deleteByID(id);
+      let resultado = await this.contenedor.deleteByID(id);
       resultado
         ? res.json({ estado: "OK", descripcion: "Se borro el producto." })
         : res.json({ estado: "error", descripcion: "No se encontro el id" });

@@ -22,13 +22,14 @@ button.addEventListener("click", (e) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.estado === "error")
-        document.querySelector("#error-form").innerHTML = "Error en la carga";
+      if (data.estado === "error") console.log(data);
+      document.querySelector("#error-form").innerHTML = "Error en la carga";
     })
-    .catch(
-      () =>
+    .catch((e) => {
+      console.log(e)(
         (document.querySelector("#error-form").innerHTML = "Error en la carga")
-    );
+      );
+    });
 
   console.log(producto);
 });

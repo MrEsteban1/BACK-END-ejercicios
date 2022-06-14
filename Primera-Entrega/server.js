@@ -20,7 +20,6 @@ router_productos.get("/:id?", (req, res) => {
 });
 
 router_productos.post("/", (req, res) => {
-  console.log(req.body);
   return Productos.addProduct(req, res);
 });
 
@@ -37,8 +36,8 @@ router_carrito.post("/:id/producto", async (req, res) => {
 });
 
 router_carrito.post("/", async (req, res) => {
-  console.log(req.body);
   return await Carritos.addCarrito(req, res);
+  return;
 });
 
 router_carrito.get("/:id", async (req, res) => {

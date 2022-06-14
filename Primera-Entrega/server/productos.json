@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "121341424",
+    "timestamp": 1655009971,
+    "nombre": "Lampara Mesa",
+    "precio": "400",
+    "imagen": "https://www.elmueble.com/medio/2021/12/19/lampara_268fa582_600x600.png",
+    "stock": "6",
+    "descripcion": "Lampara para iluminar habitaciones"
+  },
+  {
+    "id": "121341422",
+    "timestamp": 1655009971,
+    "nombre": "Lampara Mesa Negra",
+    "precio": "200",
+    "imagen": "https://http2.mlstatic.com/D_NQ_NP_606160-MLM45404232907_032021-O.jpg",
+    "stock": 2,
+    "descripcion": "Lampara para iluminar habitaciones"
+  },
+  {
+    "id": "1655018091435",
+    "timestamp": 1655018091347,
+    "nombre": "Lampara Azul",
+    "precio": "1412",
+    "stock": "2",
+    "descripcion": "Lampara azul linda",
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTwO6W3o8H_iic-5cfsTJL8QdTcKmv4DpAocGVIO_ALNLS6Vb0n_N2nVR4PCxA0FPGHdE&usqp=CAU"
+  },
+  {
+    "id": 1655165871287,
+    "timestamp": 1655165871220,
+    "nombre": "Silla Gamer",
+    "precio": "1312",
+    "stock": "23",
+    "descripcion": "silla",
+    "imagen": "https://www.malditohard.com.ar/img/migration/SILLA-GAMER-ASUS-ROG-CHARIOT-RGB.webp"
+  }
+]
