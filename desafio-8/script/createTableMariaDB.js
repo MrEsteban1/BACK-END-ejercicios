@@ -8,7 +8,7 @@ knex.schema.createTable("productos", tabla => {
         //tabla.timestamp('').defaultTo(knex.fn.now()),
         tabla.string('title')
         tabla.float('price'),
-        tabla.string('mensaje')
+        tabla.string('thumbnail')
 })
 .then(() => {
         console.log("Se creo la tabla")
