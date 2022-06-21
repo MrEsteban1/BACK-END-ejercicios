@@ -1,21 +1,25 @@
 const express = require("express");
 const { Server: IOServer } = require("socket.io");
 const { Server: HttpServer } = require("http");
-const Chats = require("./chat-procesor");
+const Chats = require("./apiChats")
+
 
 const app = express();
-
 const PORT = 8080;
 
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+const mensajesAPI = new Chats()
 
-app.use(express.static("./public"));
+// const chatsContenedor = new Contenedor(sqlite,"mensajes")
+// const productoContenedor = new Contenedor(mariaDB, "productos")
+
+app.use(express.static("../client/public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.sendFile("public/index.html", { root: __dirname });
+  res.sendFile("../client/public/index.html", { root: __dirname });
 });
 
 app.post("/productos", (req, res) => {
@@ -25,16 +29,11 @@ app.post("/productos", (req, res) => {
 });
 
 app.post("/mensaje", async (req, res) => {
-  try {
-    await Chats.addRegister(req.body);
-  } catch (error) {
-    console.log(error);
-  }
+  await mensajesAPI.agregarMensaje(req,res)
   io.emit("nuevo mensaje", req.body);
 });
 
 httpServer.listen(PORT, () => {
-  Chats.setArchivo("./mensajes.txt");
   console.log("Servidor funcionando en puerto " + PORT);
 });
 
@@ -42,10 +41,10 @@ io.on("connection", (socket) => {
   console.log("Usuario conectado " + socket.id);
   socket.on("nueva conexion", async () => {
     console.log("pasa por nueva conexion");
-    socket.emit("productos", productos);
+   // socket.emit("productos", productos);
     let mensajes = [];
     try {
-      mensajes = await Chats.getAll();
+      mensajes = await mensajesAPI.conseguirMensajes();
       socket.emit("mensajes", mensajes);
       console.log(mensajes);
     } catch (error) {
