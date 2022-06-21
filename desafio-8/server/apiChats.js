@@ -22,7 +22,6 @@ module.exports =  class Chats{
         let resultado
         try{
             let data = await this.Contenedor.getAllRegisters()
-            console.log(data)
             resultado = data
         }catch(error){
             console.log(error)
