@@ -4,7 +4,7 @@ module.exports = class Contenedor {
     this.model = model;
   }
 
-  async getRegister(req, res) {
+  async getRegister(id) {
     let resultado = {};
     try {
       if (!!req.params.id) resultado = await _getRegisterById(req.params.id);
@@ -17,7 +17,7 @@ module.exports = class Contenedor {
       resultado = [];
     }
 
-    return res.json({ estado: "OK", data: resultado });
+    return  resultado
   }
 
   async delRegister(req, res) {
@@ -34,27 +34,26 @@ module.exports = class Contenedor {
       .then((_) => res.json({ estado: "OK" }))
       .catch((error) => {
         console.log(error);
-        res.json({ estado: "error", descripcion: error });
+        res.json({ estado: "error", descripcion: "Error al cargar el producto" });
       });
   }
 
-  async updateRegister(req, res) {
-    const update = { ...req.body.data };
+  async updateRegister(id,data) {
+    const update = { ...data };
     delete update.id;
-    console.log(update, req.params.id.toString());
+    console.log(update, id.toString());
     this.db
-      .then((_) => this.model.find({ _id: req.params.id }))
+      .then((_) => this.model.find({ _id: id }))
       .then((res) => console.log(res))
-      .then((_) => this.model.findOneAndUpdate({ _id: req.params.id }, update))
+      .then((_) => this.model.findOneAndUpdate({ _id: id }, update))
       .then((resolve) => {
         if (!!resolve) {
-          res.json({ estado: "OK" });
+          return true
         } else
-          res.json({ estado: "error", descripcion: "No se encontro el ID" });
-        console.log(resolve);
+          return false
       })
       .catch((_) =>
-        res.json({ estado: "error", descripcion: "No se pudo actualizar" })
+        { return false}
       );
   }
 
