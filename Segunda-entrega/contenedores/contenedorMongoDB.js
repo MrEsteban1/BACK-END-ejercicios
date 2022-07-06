@@ -17,44 +17,56 @@ module.exports = class Contenedor {
       resultado = [];
     }
 
-    return  resultado
+    return resultado;
   }
 
-  async delRegister(req, res) {
-    this.db.then((_) =>
+  async delRegister(id) {
+    let resultado;
+    await this.db.then((_) =>
       this.model
-        .deleteOne({ _id: ObjectId(req.params.id.toString()) })
-        .then((_) => res.send("Elemento borrado"))
+        .deleteOne({ _id: ObjectId(id.toString()) })
+        .then((_) => (resultado = true))
+        .catch((e) => {
+          console.log(e);
+          resultado = false;
+        })
     );
+
+    return resultado;
   }
 
-  async addRegister(req, res) {
-    this.db
-      .then((_) => this.model({ ...req.body.data }).save())
-      .then((_) => res.json({ estado: "OK" }))
+  async addRegister(data) {
+    let resultado = {};
+    await this.db
+      .then((_) => this.model({ ...data }).save())
+      .then((_) => (resultado = true))
       .catch((error) => {
         console.log(error);
-        res.json({ estado: "error", descripcion: "Error al cargar el producto" });
+        resultado = false;
       });
+
+    return resultado;
   }
 
-  async updateRegister(id,data) {
+  async updateRegister(id, data) {
     const update = { ...data };
     delete update.id;
+    let resultado;
     console.log(update, id.toString());
-    this.db
+    await this.db
       .then((_) => this.model.find({ _id: id }))
       .then((res) => console.log(res))
       .then((_) => this.model.findOneAndUpdate({ _id: id }, update))
       .then((resolve) => {
         if (!!resolve) {
-          return true
-        } else
-          return false
+          resultado = true;
+        } else resultado = false;
       })
-      .catch((_) =>
-        { return false}
-      );
+      .catch((_) => {
+        resultado = false;
+      });
+
+    return resultado;
   }
 
   async _getRegisterById(id) {
