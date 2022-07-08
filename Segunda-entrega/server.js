@@ -1,14 +1,8 @@
 const express = require("express");
-
-// const Contenedor = require("./contenedores/contenedorMongoDB");
-// const productos = require("./db/models/productos");
-// const db = require("./db/config");
-const routerProductos = require("./router/productosRoutes");
-const routerCarrito = require("./router/carritoRoutes")
-
 const cors = require("cors");
 
-const { Router } = express;
+const routerProductos = require("./router/productosRoutes");
+const routerCarrito = require("./router/carritoRoutes")
 
 const app = express();
 PORT = 8080;

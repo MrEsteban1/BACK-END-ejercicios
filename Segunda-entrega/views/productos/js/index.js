@@ -28,10 +28,11 @@ const renderProductos = async (productos) => {
 
     button_send.forEach((element) => {
       element.addEventListener("click", async (e) => {
+        e.preventDefault()
         element.innerHTML = loaderSpinner();
         let id = sessionStorage.getItem("id_carrito");
         if (!!id) {
-          console.log("pasa por aca");
+          console.log("pasa por aca", element.value);
           fetch(`http://localhost:8080/api/productos/${element.value}`)
             .then((response) => response.json())
             .then((data) => agregarProducto(id, data))
@@ -41,10 +42,10 @@ const renderProductos = async (productos) => {
           //   .then((data) => console.log(data))
           //   .catch((e) => console.log(e));
         } else {
-          console.log("pasa por aca 2");
+          console.log("pasa por aca 2",`http://localhost:8080/api/productos/${element.value}`);
           fetch(`http://localhost:8080/api/productos/${element.value}`)
             .then((response) => response.json())
-            .then((data) => crearCarrito(data))
+            .then((data) =>{console.log(data); return crearCarrito(data)})
             .catch((e) => console.log(e));
         }
       });
@@ -61,7 +62,8 @@ const crearCarrito = (productos) => {
     body: JSON.stringify(productos),
   })
     .then((response) => response.json())
-    .then((data) => {
+    .then(({data}) => {
+      console.log(data)
       sessionStorage.setItem("id_carrito", data.id.toString());
       console.log(data.id.toString());
     })

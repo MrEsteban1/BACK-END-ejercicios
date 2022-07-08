@@ -1,14 +1,13 @@
-const productos = require("../db/models/productos");
-const Contenedor = require("../contenedores/contenedorMongoDB");
-const db = require("../db/config");
+const Contenedor = require("../../contenedores/contenedorFirebase");
+
 
 module.exports = class ProductoDao extends Contenedor {
   constructor() {
-    super(db, productos);
+    super('productos');
   }
 
   async getProducto(req, res) {
-    let resultado = await this.getRegister(req.body.data);
+    let resultado = await this.getRegister(req.params.id);
     resultado
       ? res.json({
           estado: "OK",
@@ -35,6 +34,7 @@ module.exports = class ProductoDao extends Contenedor {
 
   async updateProducto(req, res) {
     const id = req.params.id;
+    console.log(req.body.data)
     let resultado = await this.updateRegister(id, req.body.data);
     resultado
       ? res.json({
@@ -47,8 +47,8 @@ module.exports = class ProductoDao extends Contenedor {
         });
   }
 
-  async delProducto(req, res) {
-    let resultado = await this.delRegister(req.body.data);
+  async delProduct(req, res) {
+    let resultado = await this.delRegister(req.params.id);
     resultado
       ? res.json({
           estado: "OK",
@@ -60,3 +60,4 @@ module.exports = class ProductoDao extends Contenedor {
         });
   }
 };
+

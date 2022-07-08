@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "coderhouse-ibiza",
+    "private_key_id": "03cad55ac4df2b67d8c53961c54c142a1971a577",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZxAYQM3Mhsxiw\nnbJ1wYPSWY7zyuVIdmkEeXOzn49Sq+uEg40YgDKj6lXslrN+ccANeIY/OAIjoAqS\nWchES6ePG6v3+QqJNJlDdXu5hbRHsgsqlZJE6zyivJfjEMJ8jv7OydRBFMlVtPlt\nldSXGrq1Qzcln3W90ck3Mzu6CPgH5LhLUZlhnKfjyW8mEAGPK4fhp/SHvs9lj/n5\nloylzIptZfsBVbLP8Zd2tNTSgyUNh/K2E+mUYt02y0gYrFYyHF28qgBfR84RYTPf\nFQFkvlu1NwIuG13ofhMVLdXQsv9FhVe60pkufwvdu7vOLp51Qm7sxKz3audfKgZZ\n8XvJ0YxfAgMBAAECggEACYWwpG8zOYqIRGO3qgAuZCfkqOdPNKIUldDZn+2JKCL6\nZk3pPnOt7yWzZX/dpL5xmMP2eFLFGyStkuuZcdVHjp61kxkqlF2cAifz3gTQKcJ2\nW5BAqyDwM9m/BDJFAQav8+leyhr57uNSsP0e2a6vkksTzrIlzfgAYHk9QSOODJr+\nTlGXnfpef4OxXkGkyFX/fIC5C8pVhYcjTrcpxfUyO2jRyl/nHMyEoCFq7oXWtmqP\n9VH+mOdkhaochSkaRFFu8l7BW0WkXzIA/LCM1M3PvFA7nhmXdKeAqyJ74rodilOY\nmgTXsCGCEGnST0IE4KxxzP3Jm0rDHZ2PK5q7kJJ3AQKBgQDQZ1kPKaqBHBvz45Yd\nytp2Vt588vjTvCbDcpTK4cpuj6QA7kGI++79xcBdo1TYSw1Y+bfL5aeKxplN+3ip\nK5tS3IY95MyT1a5NFq2cdrkQYiEm6NB4E2xW2VKpEkWTfwpRh9asxSHWeEImBWMp\n8wZRBpgR52PnJhjrrWhDbuchXwKBgQC84i34eTtizjnF8lXeuNGhtKhA9IhWL8mb\nFQcWcIbwJZmIFM0bfzG5WMUXJw7ve8iCV2hDeO1g8UZe9TP23NQpcvCW6/U10/nK\nAd15WDPf3TohZFBBf/r5ucffLUEnv/mX/tqjFe6G3a0jCphquDV2t118DhSJbJcQ\nEQ5dtZZ1AQKBgAy+xUuQGMVcmrkHqh6YUVP7bA/oLB+G2jgJwd/Gf0LTtgv4hjmC\nbtNGTMVtP7sam+5dF0h4+w4ZpzaFspNl/1HJ+su+OmSwJMDCKkvvVtIRrkVa56Tw\nSyfkkpGUdHzYwCDMVeyrAa7EHAeHPNFL847xAEvYAtwYEF4ZdM7q8WexAoGBAKKb\nhT/3/mwdZhdHfS10puQzhvYEjqrEESf1fliPH1v2wqooXjth0Qjjpyk7ctwxEHlF\njnknzhQ7In31UnsfuXbFgOIs2LkyeES0PlqM2HvNFJJSrdT1vLbofW1gpEr4NoPn\n34mvA94PUVJteLHHTB+b1FtMM9nrJlGqnVeHULQBAoGAUHU4AfEkT27twj+n8RNL\ndLyS85M0OaPj9MJIjBXVzsK9+DRNoTe9GYZPKEEvTxjRgp3IHg9Ap5c9YlfF8g5x\naxRcyuVCcDNDE20BhqrCt2dJB7mlL5vITCsdXxmycmFHdVwxJrqqXPEnVAPOKUR1\nz70clEm0v0PCktpRmP+9yXM=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-xi51m@coderhouse-ibiza.iam.gserviceaccount.com",
+    "client_id": "104164630262642911082",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xi51m%40coderhouse-ibiza.iam.gserviceaccount.com"
+  }

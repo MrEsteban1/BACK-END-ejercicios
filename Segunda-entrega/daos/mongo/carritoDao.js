@@ -1,6 +1,6 @@
-const db = require("../db/config");
-const carritos = require("../db/models/carrito");
-const Contenedor = require("../contenedores/contenedorMongoDB");
+const db = require("../../db/config");
+const carritos = require("../../db/models/carrito");
+const Contenedor = require("../../contenedores/contenedorMongoDB");
 
 module.exports = class CartDao extends Contenedor {
   constructor() {
@@ -12,9 +12,8 @@ module.exports = class CartDao extends Contenedor {
       fecha: new Date(),
       productos: [{ ...req.body }],
     };
-    req.body.data = carrito;
 
-    let resultado = await this.addRegister(req, res);
+    let resultado = await this.addRegister(carrito);
     resultado
       ? res.json({
           estado: "OK",

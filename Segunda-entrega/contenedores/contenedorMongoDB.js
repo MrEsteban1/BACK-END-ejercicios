@@ -7,7 +7,7 @@ module.exports = class Contenedor {
   async getRegister(id) {
     let resultado = {};
     try {
-      if (!!req.params.id) resultado = await _getRegisterById(req.params.id);
+      if (!!id) resultado = await _getRegisterById(id);
       else
         await this.db
           .then((_) => this.model.find({}))

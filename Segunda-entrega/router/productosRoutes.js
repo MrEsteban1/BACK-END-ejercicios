@@ -1,25 +1,23 @@
 const { Router } = require("express");
-const Contenedor = require("../contenedores/contenedorMongoDB");
-const db = require("../db/config");
-const productos = require("../db/models/productos");
+const { productos } = require("../daos/index")
+// const Contenedor = require("../contenedores/contenedorMongoDB");
 
-const contenedor = new Contenedor(db, productos);
 const productosRouter = Router();
 
 productosRouter.get("/:id?", (req, res) => {
-  return contenedor.getRegister(req, res);
+  return productos.getProducto(req,res);
 });
 
 productosRouter.post("/", (req, res) => {
-  return contenedor.addRegister(req, res);
+  return productos.addProducto(req,res);
 });
 
 productosRouter.put("/:id", (req, res) => {
-  return contenedor.updateRegister(req, res);
+  return productos.updateProducto(req,res);
 });
 
 productosRouter.delete("/:id", (req, res) => {
-  return Productos.deleteProduct(req, res);
+  return productos.delProduct(req, res);
 });
 
 module.exports = productosRouter;
