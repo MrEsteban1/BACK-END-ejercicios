@@ -8,7 +8,7 @@ module.exports = class ProductoDao extends Contenedor {
   }
 
   async getProducto(req, res) {
-    let resultado = await this.getRegister(req.body.data);
+    let resultado = await this.getRegister(req.params.id);
     resultado
       ? res.json({
           estado: "OK",
@@ -47,8 +47,8 @@ module.exports = class ProductoDao extends Contenedor {
         });
   }
 
-  async delProducto(req, res) {
-    let resultado = await this.delRegister(req.body.data);
+  async delProduct(req, res) {
+    let resultado = await this.delRegister(req.params.id);
     resultado
       ? res.json({
           estado: "OK",

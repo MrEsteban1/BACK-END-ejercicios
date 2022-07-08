@@ -1,9 +1,9 @@
 const DaoCarritoMongo = require("./mongo/carritoDao");
 const DaoProductoMongo = require("./mongo/productosDao");
-const DaoCarritoFirebase = require("./firebase/carritoDao")
-const DaoProductoFirebase = require("./firebase/productosDao")
+const DaoCarritoFirebase = require("./firebase/carritoDao");
+const DaoProductoFirebase = require("./firebase/productosDao");
 
-let contenedor = "mongodb";
+let contenedor = process.env.STORAGE || "firebase";
 let Daos = {};
 
 switch (contenedor) {
@@ -12,9 +12,9 @@ switch (contenedor) {
     Daos.productos = new DaoProductoMongo();
     break;
   case "firebase":
-    console.log("aqui")
+    console.log("aqui");
     Daos.carrito = new DaoCarritoFirebase();
-    Daos.productos = new DaoProductoFirebase()
+    Daos.productos = new DaoProductoFirebase();
     break;
   default:
     Daos.carrito = new DaoCarritoMongo();

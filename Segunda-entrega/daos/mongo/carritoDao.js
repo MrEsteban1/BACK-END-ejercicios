@@ -10,14 +10,14 @@ module.exports = class CartDao extends Contenedor {
   async addCarrito(req, res) {
     const carrito = {
       fecha: new Date(),
-      productos: [{ ...req.body }],
+      productos: [{ ...req.body.data }],
     };
-
+    console.log("holaas ", carrito.productos);
     let resultado = await this.addRegister(carrito);
     resultado
       ? res.json({
           estado: "OK",
-          descripcion: "Se agrego el carrito",
+          data: { id: resultado },
         })
       : res.json({
           estado: "error",
@@ -30,7 +30,8 @@ module.exports = class CartDao extends Contenedor {
 
     try {
       resultado = await this.getRegister(req.params.id);
-      if (resultado.length > 0) res.json(datos);
+      console.log(resultado);
+      if (resultado) res.json(resultado);
       return;
     } catch (error) {
       console.log(error);
@@ -62,11 +63,11 @@ module.exports = class CartDao extends Contenedor {
   async addProducto(req, res) {
     try {
       let carrito = await this.getRegister(req.params.id);
-      console.log(carrito);
-      if (carrito.length == 1) {
-        carrito[0].productos = [...carrito[0].productos, req.body];
+      // console.log("carrito actual: ", ...carrito.productos);
+      if (carrito) {
+        carrito.productos = [...carrito.productos, req.body.data];
       }
-      let respuesta = await this.updateRegister(carrito);
+      let respuesta = await this.updateRegister(req.params.id, carrito);
       respuesta
         ? res.json({ estado: "OK", data: "Se agrego el producto" })
         : res.json({ estado: "error", descripcion: "No se pudo actualizar" });
@@ -82,13 +83,15 @@ module.exports = class CartDao extends Contenedor {
     try {
       let carrito = await this.getRegister(id_carrito);
       console.log(carrito);
-      if (carrito.length == 1) {
-        const index = carrito[0].productos.findIndex((dato) => {
+      if (carrito) {
+        const index = carrito.productos.findIndex((dato) => {
           return dato.id == id_producto;
         });
-        carrito[0].productos.splice(index, 1);
+        carrito.productos = carrito.productos.splice(index, 1);
       }
-      let respuesta = await this.updateRegister(carrito);
+      console.log("SALIDA: ", carrito.productos);
+      console.log("---------------------------------");
+      let respuesta = await this.updateRegister(id_carrito, carrito);
       respuesta
         ? res.json({ estado: "OK", data: "Se elimino el producto" })
         : res.json({ estado: "error", descripcion: "No se elimino" });

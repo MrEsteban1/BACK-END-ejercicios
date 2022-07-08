@@ -7,16 +7,19 @@ module.exports = class Contenedor {
   async getRegister(id) {
     let resultado = {};
     try {
-      if (!!id) resultado = await _getRegisterById(id);
+      if (!!id) resultado = await this._getRegisterById(id);
       else
         await this.db
           .then((_) => this.model.find({}))
-          .then((res) => (resultado = res));
+          .then(async (res) => {
+            resultado = await res.map((res) => {
+              return { ...res._doc, id: res._doc._id.toString() };
+            });
+          });
     } catch (error) {
       console.log(error);
       resultado = [];
     }
-
     return resultado;
   }
 
@@ -24,7 +27,7 @@ module.exports = class Contenedor {
     let resultado;
     await this.db.then((_) =>
       this.model
-        .deleteOne({ _id: ObjectId(id.toString()) })
+        .deleteOne({ _id: id.toString() })
         .then((_) => (resultado = true))
         .catch((e) => {
           console.log(e);
@@ -39,7 +42,9 @@ module.exports = class Contenedor {
     let resultado = {};
     await this.db
       .then((_) => this.model({ ...data }).save())
-      .then((_) => (resultado = true))
+      .then((res) => {
+        resultado = res._id.toString();
+      })
       .catch((error) => {
         console.log(error);
         resultado = false;
@@ -52,10 +57,8 @@ module.exports = class Contenedor {
     const update = { ...data };
     delete update.id;
     let resultado;
-    console.log(update, id.toString());
     await this.db
       .then((_) => this.model.find({ _id: id }))
-      .then((res) => console.log(res))
       .then((_) => this.model.findOneAndUpdate({ _id: id }, update))
       .then((resolve) => {
         if (!!resolve) {
@@ -72,10 +75,9 @@ module.exports = class Contenedor {
   async _getRegisterById(id) {
     let resultado = {};
     await this.db
-      .then((_) => this.model.find({ _id: ObjectId(id.toString()) }))
-      .then((res) => (resultado = res))
+      .then((_) => this.model.find({ _id: id.toString() }))
+      .then((res) => (resultado = { ...res[0]._doc, id: res[0]._doc._id }))
       .catch((e) => {
-        console.log(e);
         resultado = [];
       });
 
