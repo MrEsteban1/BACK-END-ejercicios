@@ -26,10 +26,10 @@ app.use(session(
 const auth = (req,res,next)=> {
     if(!req.session.user){
         res.sendFile("./public/login.html", { root: __dirname });
+        return
+    } else {
+        next()
     }
-
-    next()
-
 }
 
 app.get('/login',(req,res)=>{
@@ -38,17 +38,18 @@ app.get('/login',(req,res)=>{
 )
 
 app.post('/login',(req,res)=>{
-    console.log(req.body.user)
     req.session.user = req.body.user
     res.render("./public/home/index.html");
 })
 
-app.get('/home',auth,(req,res)=>{
+app.get('/homes',auth,(req,res)=>{
     res.sendFile("./public/home/index.html", { root: __dirname });
 })
 
-app.get('/get', (req,res)=>{
-    res.send(req.cookies.server)
+app.get('/logout', (req,res)=>{
+    req.session.destroy()
+    console.log('cerrada sesion')
+    res.send('se cerro la sesion')
 })
 
 app.delete('/delete',(req,res)=>{

@@ -10,6 +10,9 @@ loginButton.addEventListener("click", (e)=>{
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({user: usuario})
     })
+
+    console.log('hola')
+    window.location.href = 'http://localhost:8080/homes'
 })
 
-console.log("hola")
+console.log('hola estamos aca')
