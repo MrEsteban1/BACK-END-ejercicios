@@ -1,0 +1,53 @@
+body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  padding: 10px;
+  background-color: rgb(109, 102, 116);
+}
+#products-section div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  border-radius: 1.2px;
+  width: 50%;
+  background-color: rgb(203, 210, 216);
+}
+
+#mensaje-section {
+  margin-top: 20px;
+  background-color: rgb(109, 109, 149);
+}
+
+.mensajes-screen {
+  background-color: aliceblue;
+  min-width: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px 30px 20px 0px;
+}
+.mensajes-screen ul {
+  list-style: none;
+}
+.mensajes-screen li {
+  margin-top: 5px;
+}
+.mensaje-email {
+  color: blue;
+  font-weight: bold;
+}
+.mensaje-fecha {
+  color: red;
+}
+.mensaje-texto {
+  color: green;
+}
