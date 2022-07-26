@@ -43,12 +43,23 @@ passport.use(
   new LocalStrategy(
     { passReqToCallback: true },
     (req, username, password, done) => {
-      usuarios.getUser(username).then((user) => {
+      console.log(username);
+      usuarios.getUser(username).then(async (user) => {
+        console.log(user);
         if (user) {
           console.log("usuario existe");
           return done(null, false);
         } else {
           const hash = bcrypt.hashSync(password, 10);
+          try {
+            let resultado = await usuarios.addRegister({
+              user: username,
+              password: hash,
+            });
+            resultado ? done(null, username) : done(null, false);
+          } catch (error) {
+            console.log(error);
+          }
         }
       });
     }
@@ -85,11 +96,23 @@ app.get("/login", (req, res) => {
   res.sendFile("./public/login.html", { root: __dirname });
 });
 
+app.get("/signup", (req, res) => {
+  res.sendFile("./public/signup.html", { root: __dirname });
+});
+
 app.post(
   "/login",
   passport.authenticate("login", {
-    successRedirect: "/loginFalse.html",
+    successRedirect: "/public/home.html",
     failureRedirect: "/loginFalse.html",
+  })
+);
+
+app.post(
+  "/register",
+  passport.authenticate("signup", {
+    successRedirect: "/public/home.html",
+    failureRedirect: "/signupError.html",
   })
 );
 
