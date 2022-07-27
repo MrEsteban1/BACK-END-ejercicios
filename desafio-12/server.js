@@ -47,16 +47,18 @@ passport.use(
       usuarios.getUser(username).then(async (user) => {
         console.log(user);
         if (user) {
-          console.log("usuario existe");
           return done(null, false);
         } else {
           const hash = bcrypt.hashSync(password, 10);
+          let data = {
+            user: username,
+            password: hash,
+          };
           try {
-            let resultado = await usuarios.addRegister({
-              user: username,
-              password: hash,
-            });
-            resultado ? done(null, username) : done(null, false);
+            let resultado = await usuarios.addRegister(data);
+            resultado
+              ? ((data.id = resultado), done(null, data))
+              : done(null, false);
           } catch (error) {
             console.log(error);
           }
@@ -73,7 +75,6 @@ passport.use(
       passReqToCallback: true,
     },
     (req, username, password, done) => {
-      console.log("holas desde locasl " + JSON.stringify(username));
       usuarios
         .getUser(username)
         .then((user) => {
@@ -92,6 +93,16 @@ passport.use(
   )
 );
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  let user = await usuarios._getRegisterById(id);
+
+  done(null, user);
+});
+
 app.get("/login", (req, res) => {
   res.sendFile("./public/login.html", { root: __dirname });
 });
@@ -103,7 +114,7 @@ app.get("/signup", (req, res) => {
 app.post(
   "/login",
   passport.authenticate("login", {
-    successRedirect: "/public/home.html",
+    successRedirect: "/public/index.html",
     failureRedirect: "/loginFalse.html",
   })
 );
