@@ -11,7 +11,7 @@ module.exports = class UserDao extends Contenedor {
     console.log(user);
     await this.db
       .then((_) => this.model.findOne({ user: user }))
-      .then((e) => console.log(e, "hola"));
+      .then((e) => console.log(e));
     return this.db.then((_) => this.model.findOne({ user: user }));
   }
 };

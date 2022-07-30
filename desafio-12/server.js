@@ -114,7 +114,7 @@ app.get("/signup", (req, res) => {
 app.post(
   "/login",
   passport.authenticate("login", {
-    successRedirect: "/public/index.html",
+    successRedirect: "/home/index.html",
     failureRedirect: "/loginFalse.html",
   })
 );
