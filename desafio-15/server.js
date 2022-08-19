@@ -81,10 +81,9 @@ app.get("/info", (req, res) => {
 });
 
 app.get("/random", (req, res) => {
-  const cantidad = req.query.cant || 100000000;
+  const cantidad = req.query.cant || 100000;
   //let calculo = fork("./calculo.js");
-  let calculo = randomNumbers(req.query.cant)
-  res.send(cantidad);
+  randomNumbers(cantidad).then(e=> {res.json(e)}).catch(e=>console.log(e))
   //calculo.on("message", (numbers) => res.json(numbers));
 });
 

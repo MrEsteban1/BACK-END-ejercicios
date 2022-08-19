@@ -1,15 +1,23 @@
 const randomNumbers = (cant) => {
-  let numbersRepeated = {};
+  return new Promise((resolve, reject) => {
+    let numbersRepeated = {};
   for (let i = 0; i < cant; i++) {
     nroRandom = Math.trunc(Math.random() * 1001);
+    console.log("i:" + i)
     if (numbersRepeated[nroRandom] === undefined) {
       numbersRepeated[nroRandom] = 1;
     } else {
       numbersRepeated[nroRandom]++;
     }
+
+    
+    if(cant-1===i)resolve(numbersRepeated)
   }
-  return numbersRepeated;
-};
+  console.log("hola aqui "+cant,numbersRepeated)
+  
+})}
+  
+  
 
 process.on("message", (cant) => {
   let numbers = randomNumbers(cant);
