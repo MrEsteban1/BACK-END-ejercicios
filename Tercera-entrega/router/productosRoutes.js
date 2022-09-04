@@ -20,4 +20,17 @@ productosRouter.delete("/:id", (req, res) => {
   return productos.delProduct(req, res);
 });
 
+productosRouter.post("/pedido",(req,res)=>{
+  console.log(req.body)
+  const data = req.body
+  const texto = 
+  `
+    Hola ${data.nombre}!
+    Tu pedido es el siguiente:
+    ${data.productos.map(producto => `${producto.nombre} a $ ${producto.precio} \n`).join("")}
+  `
+  console.log(texto)
+  res.json({estado:true})
+})
+
 module.exports = productosRouter;
