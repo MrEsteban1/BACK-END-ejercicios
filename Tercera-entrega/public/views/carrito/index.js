@@ -1,7 +1,7 @@
 const productos_list = document.querySelector("#carrito-list");
 let botones;
-let pedidos
-let cliente
+let pedidos;
+let cliente;
 
 const validarID = (id) => {
   console.log(id);
@@ -14,34 +14,36 @@ const validarID = (id) => {
   }
 };
 
-const infoCliente = ()=>{
-  const info_section = document.querySelector("#info-cliente")
-  fetch("/userLoged").then(res=>res.json()).then(data=>{
-    let htmlInfo
-    if(data.estado){
-      cliente = data
-      htmlInfo =
-      `<ul class="list-group">
+const infoCliente = () => {
+  const info_section = document.querySelector("#info-cliente");
+  fetch("/userLoged")
+    .then((res) => res.json())
+    .then((data) => {
+      let htmlInfo;
+      if (data.estado) {
+        cliente = data;
+        htmlInfo = `<ul class="list-group">
         <li class="list-group-item active" aria-current="true">Información del cliente:</li>
         <li class="list-group-item">Nombre: ${data.nombre}</li>
         <li class="list-group-item">Edad: ${data.edad}</li>
         <li class="list-group-item">E-mail: ${data.username}</li>
         <li class="list-group-item">Telefono: ${data.telefono}</li>
-      </ul>`
-    }
-    info_section.innerHTML = htmlInfo
-    console.log(data)
-  }).catch(e => console.log(e))
-}
+      </ul>`;
+      }
+      info_section.innerHTML = htmlInfo;
+      console.log(data);
+    })
+    .catch((e) => console.log(e));
+};
 
-infoCliente()
+infoCliente();
 
 const infoCarrito = (id) => {
   fetch(`http://localhost:8080/api/carrito/${id}`)
     .then((response) => response.json())
     .then((data) => {
-      pedidos = data
-      renderProductos(data.productos, id)
+      pedidos = data;
+      renderProductos(data.productos, id);
     });
   //.catch((e) => console.log(e));
 };
@@ -89,20 +91,27 @@ const renderProductos = async (productos, id) => {
     borrarCarrito(id);
   });
 
-  boton_pedido.addEventListener("click",(e)=>{
+  boton_pedido.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log("pedido carrito")
-    fetch("/api/productos/pedido", {
-    method: "POST", // or 'PUT'
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({ username: cliente.username, nombre: cliente.nombre, ...pedidos }),
-  }).then(res=>{
-    res.json()
-  }).then(data=>{
-    console.log(data)
-  }).catch(e=>console.log(e));
+    console.log("pedido carrito");
+    fetch("/api/carrito/pedido", {
+      method: "POST", // or 'PUT'
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        username: cliente.username,
+        nombre: cliente.nombre,
+        ...pedidos,
+      }),
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => console.log(e));
     //window.location.pathname="/login"
-  })
+  });
 
   botones.forEach((boton) => {
     boton.addEventListener("click", (e) => {

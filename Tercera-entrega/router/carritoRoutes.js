@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const { carrito } = require("../daos/index");
+const sendEmail = require("../service/nodemailer");
+const sendWpp = require("../service/twilio");
 
 const routerCarrito = Router();
 
@@ -21,6 +23,28 @@ routerCarrito.delete("/:id", async (req, res) => {
 
 routerCarrito.delete("/:id/productos/:id_prod", async (req, res) => {
   return await carrito.deleteProducto(req, res);
+});
+
+routerCarrito.post("/pedido", async (req, res) => {
+  console.log(req.body);
+  const data = req.body;
+  const texto = `
+    Hola ${data.nombre}!
+    Tu pedido es el siguiente:
+    ${data.productos
+      .map((producto) => `${producto.nombre} a $ ${producto.precio} \n`)
+      .join("")}
+  `;
+  try {
+    await sendEmail(
+      "estebangonz98@gmail.com",
+      texto,
+      "Nuevo pedido de " + data.nombre,
+      res
+    );
+  } catch (error) {}
+  console.log(texto);
+  res.json({ estado: true });
 });
 
 module.exports = routerCarrito;
