@@ -4,26 +4,25 @@ const numero = "14155238886";
 
 const twilioAccount = {
   accountSID: "ACffcae7c7eb7261fea34e7ef699d25fd1",
-  authToken: "71d57842487686657733216da1fcf141",
+  authToken: "ed0f29fa5306285acc09c0c762536f06",
 };
 
 const client = twilio(twilioAccount.accountSID, twilioAccount.authToken);
 
-const sendMessage = (text, numeroTo = 5491125414388) => {
-  return new Promise((resolve, reject) => {
+const sendMessage = (text, numeroTo = "541125414388") => {
+  return new Promise(async (resolve, reject) => {
     client.messages
       .create({
         from: "whatsapp:+" + numero,
         body: text,
-        to: "whatsapp:+" + numeroTo,
+        to: "whatsapp:+5491125414388",
       })
       .then((message) => {
-        console.log(message.sid);
-        resolve(message.sid);
+        resolve(true);
       })
       .catch((e) => {
-        reject(false);
         console.log(e);
+        reject(false);
       });
   });
 };

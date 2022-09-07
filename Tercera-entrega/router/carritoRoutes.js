@@ -36,15 +36,24 @@ routerCarrito.post("/pedido", async (req, res) => {
       .join("")}
   `;
   try {
-    await sendEmail(
+    let resultadoMail = await sendEmail(
       "estebangonz98@gmail.com",
       texto,
-      "Nuevo pedido de " + data.nombre,
-      res
+      "Nuevo pedido de " + data.nombre
     );
-  } catch (error) {}
+    let resultadoWpp = await sendWpp(texto)
+      .then((response) => response)
+      .catch((_) => false);
+    console.log("responseee", resultadoWpp);
+    resultadoWpp && resultadoMail
+      ? res.json({ estado: true })
+      : res.json({ estado: false });
+  } catch (error) {
+    console.log(error);
+    res.json({ estado: false });
+  }
   console.log(texto);
-  res.json({ estado: true });
+  // res.json({ estado: true });
 });
 
 module.exports = routerCarrito;

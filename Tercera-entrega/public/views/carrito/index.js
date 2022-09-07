@@ -103,11 +103,10 @@ const renderProductos = async (productos, id) => {
         ...pedidos,
       }),
     })
-      .then((res) => {
-        res.json();
-      })
-      .then((data) => {
-        console.log(data);
+      .then((response) => response.json())
+      .then(({ estado }) => {
+        console.log("resultado: ", estado);
+        estado ? borrarCarrito(id) : alert("No se pudo finalizar la compra");
       })
       .catch((e) => console.log(e));
     //window.location.pathname="/login"

@@ -23,16 +23,14 @@ const setMailOptions = (
   };
 };
 
-const sendEmail = async (email, text, subject, res) => {
-  const resultado = false;
+const sendEmail = async (email, text, subject) => {
+  let resultado = false;
   const mailOptions = setMailOptions(email, text, subject);
   try {
     let response = await transporter.sendMail(mailOptions);
-    let resultado = true;
-    res.send("Enviado");
-    console.log(response);
+    resultado = true;
   } catch (error) {
-    res.send("No Enviado");
+    resultado = false;
     console.log(error);
   }
 
