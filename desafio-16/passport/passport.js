@@ -2,6 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const {loggerError,loggerConsola,loggerWarn} = require("../logs4js")
 const bcrypt = require("bcrypt");
+const fs = require("fs");
 
 const { usuarios } = require("../daos/index");
 
@@ -10,25 +11,33 @@ passport.use(
   new LocalStrategy(
     { passReqToCallback: true },
     (req, username, password, done) => {
+      loggerConsola.info(req.body)
+      const {nombre,edad,direccion,telefono} = req.body
       console.log(username);
       usuarios.getUser(username).then(async (user) => {
-        loggerConsola.info(user)
+        loggerConsola.info("Info usuario: ",user,req.file)
+        let avatar = "no"
         if (user) {
           loggerWarn.warn("El usuario ya fue registrado.")
           return done(null, false);
         } else {
           const hash = bcrypt.hashSync(password, 10);
-          let data = {
-            user: username,
-            password: hash,
-          };
           try {
+            if (req.file){
+              fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1]);
+              avatar = req.file.filename + '.' + req.file.mimetype.split('/')[1];
+            }
+            let data = {
+              username: username,
+              password: hash,
+              nombre,
+              edad,direccion,telefono,avatar
+            };
             let resultado = await usuarios.addRegister(data);
             resultado
               ? ((data.id = resultado), done(null, data))
               : done(null, false);
           } catch (error) {
-            console.log(error);
             loggerError.error(error)
           }
         }
