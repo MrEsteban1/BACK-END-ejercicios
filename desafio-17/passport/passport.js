@@ -11,11 +11,10 @@ passport.use(
   new LocalStrategy(
     { passReqToCallback: true },
     (req, username, password, done) => {
-      loggerConsola.info(req.body)
+      // loggerConsola.info(req.body)
       const {nombre,edad,direccion,telefono} = req.body
-      console.log(username);
       usuarios.getUser(username).then(async (user) => {
-        loggerConsola.info("Info usuario: ",user,req.file)
+        // loggerConsola.info("Info usuario: ",user,req.file)
         let avatar = "no"
         if (user) {
           loggerWarn.warn("El usuario ya fue registrado.")
@@ -54,21 +53,18 @@ passport.use(
         .getUser(username)
         .then((user) => {
           if (!user) {
-            console.log("holis");
             return done(null, false);
           } else {
-            console.log("holis", user);
             if (bcrypt.compareSync(password, user.password)) {
-              console.log("correcto")
+              loggerWarn.info("El usuario no coincide")
               return done(null, user);
             } else {
-              console.log("incorrecto")
               return done(null, false);
             }
           }
         })
         .catch((e) => {
-          console.log(e)
+          loggerError.info(e)
           done(err)
         });
     }
@@ -76,18 +72,16 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log("user no", user)
   done(null, user.id);
 });
 
 passport.deserializeUser(async(id, done) => {
-  console.log("user", id)
+  // loggerConsola.info("user", id)
   try {
     let resultado = await usuarios.getRegister(id)
-    console.log("resultado", resultado)
     done(null, resultado);
   } catch (error) {
-    console.log(error)
+    loggerError.info(error)
   }
   
 });

@@ -8,7 +8,10 @@ class ProductRepository {
     }
 
     async getRegister(id){
-        return await this.dao.getProducto(id = null)
+        console.log("Pasa por el repository")
+        let resultado =  await this.dao.getProducto(id)
+        console.log("resultado Repos: ", resultado)
+        return resultado
     }
 
     async addRegister(data){

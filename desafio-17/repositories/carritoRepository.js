@@ -35,7 +35,7 @@ class CarritoRepository {
         }
     
         loggerConsola.info('nueva instancia de repositorio')
-        instance = new ProductRepository()
+        instance = new CarritoRepository()
     
         return instance
       }

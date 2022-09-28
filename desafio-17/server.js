@@ -40,7 +40,7 @@ app.use(
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
       options: options,
-      ttl: 60 * 10,
+      ttl: 60 * 100,
     }),
     cookie: { maxAge: 600000 },
     secret: process.env.SESSION_SECRET || "qwerty",
@@ -57,10 +57,35 @@ app.use("/api/carrito", routerCarrito);
 app.use("/session",sessionRouter)  
 app.use("/system",systemRouter)
 
+app.get("/login", (req, res) => {
+  res.sendFile("./public/login.html", { root: __dirname });
+});
+
+app.get("/signup", (req, res) => {
+  res.sendFile("./public/signup.html", { root: __dirname });
+});
+
+app.post(
+  "/login",
+  passport.authenticate("login", {
+    successRedirect: "/home/index.html",
+    failureRedirect: "/loginFalse.html",
+    failureFlash: true
+  })
+);
+
+app.post(
+  "/register",
+  passport.authenticate("signup", {
+    successRedirect: "/home/index.html",
+    failureRedirect: "/signupError.html",
+  })
+);
+
 app.use((req, res, next) => {
   res.status(404);
   loggerWarn.warn(`RUTA: ${req.originalUrl} - METODO: ${req.method} - RESULTADO: No implementado`)
-  res.redirect('/session/login');
+  res.redirect('/login');
   next();
 });
 

@@ -112,7 +112,7 @@
       const validateUser = () => {
         
         console.log(window.location.pathname)
-         fetch("/userLoged")
+         fetch("/session/userLoged")
            .then((res) => res.json())
            .then((data) =>{
             console.log(data)

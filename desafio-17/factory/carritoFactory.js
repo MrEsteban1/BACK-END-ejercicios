@@ -1,5 +1,5 @@
 const CarritoDAOMongo = require("../daos/mongo/carritoDao")
-const CarritoDAOFirebase = require("../daos/firebase/carritoDao")
+//const CarritoDAOFirebase = require("../daos/firebase/carritoDao")
 
 const CarritoUserDAO = (storage="mongo") => {
     let dao = {}
@@ -8,11 +8,11 @@ const CarritoUserDAO = (storage="mongo") => {
             dao = new CarritoDAOMongo()
             break
         case 'firebase':
-            dao = new CarritoDAOFirebase()
+            //dao = new CarritoDAOFirebase()
             break
         default:
             dao = new CarritoDAOMongo()
-            breaks
+            break
     }
 
     return new CarritoDAOMongo()

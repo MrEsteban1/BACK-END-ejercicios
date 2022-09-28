@@ -20,6 +20,7 @@ module.exports = class Contenedor {
       console.log(error);
       resultado = [];
     }
+    
     return resultado;
   }
 

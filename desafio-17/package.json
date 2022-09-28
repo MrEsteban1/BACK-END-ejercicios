@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "autocannon": "^7.9.0",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "chai": "^4.3.6",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -26,5 +28,8 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "twilio": "^3.81.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
   }
 }

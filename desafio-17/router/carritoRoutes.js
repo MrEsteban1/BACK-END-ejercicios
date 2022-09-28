@@ -17,7 +17,7 @@ routerCarrito.post("/", async (req, res) => {
 });
 
 routerCarrito.get("/:id", async (req, res) => {
-  return await carritoController(req,res)
+  return await carritoController.getCarritoByID(req,res)
   // return await carrito.getCarritoByID(req, res);
 });
 

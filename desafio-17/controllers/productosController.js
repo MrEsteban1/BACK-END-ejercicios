@@ -1,4 +1,4 @@
-const { loggerError } = require("../logs4js")
+const { loggerError, loggerConsola, loggerWarn } = require("../logs4js")
 const {getProdService,addProdService,updateProdService,delProdService} = require("../services/productosService")
 
 const getProdController = async(req,res)=>{
@@ -7,13 +7,14 @@ const getProdController = async(req,res)=>{
     try {
         resultado = await getProdService(id)
     } catch (error) {
-        loggerError.info(error)
-        req.json({estado:"error",descripcion:"No se elimino el producto"})
+        loggerConsola.warn(error)
+        resultado = false
+        //res.json({estado:"error",descripcion:"No se elimino el producto"})
     }
-
+    loggerConsola.info("Resultado: ",resultado)
     resultado 
-        ? req.json({estado:"OK",data:resultado})
-        : req.json({estado:"error",descripcion:"No se elimino el producto"})
+        ? res.json({estado:"OK",data:resultado})
+        : res.json({estado:"error",descripcion:"No se elimino el producto"})
 }
 
 const addProdController = async (req,res)=>{
@@ -22,7 +23,7 @@ const addProdController = async (req,res)=>{
     try {
         resultado = await addProdService(data)
     } catch (error) {
-        loggerError.info(errror)
+        loggerConsola.error(error)
         resultado = false
     }
 
@@ -39,9 +40,10 @@ const addProdController = async (req,res)=>{
 
 const updateProdController = async (req,res)=>{
     const id = req.params.id;
+    const data = req.body.data
     let resultado = false
     try {
-        resultado = await updateProdService(id)
+        resultado = await updateProdService(id,data)
     } catch (error) {
         loggerError.info(error)
         resultado = false
@@ -63,7 +65,7 @@ const delProdController = async (req,res)=>{
     try {
         resultado = await delProdService(id)
     } catch (error) {
-        loggerError.info(error)
+        loggerConsola.error(error)
         resultado = false
     }
     resultado

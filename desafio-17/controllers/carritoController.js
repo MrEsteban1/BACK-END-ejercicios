@@ -29,7 +29,7 @@ const getCarritoByID = async (req,res) => {
     const idCarrito = req.params.id
     let resultado = await carritoServices.getCarritoByID(idCarrito)
     loggerConsola.info(resultado)
-    respuesta
+    resultado
         ? res.json({ estado: "OK", ...resultado })
         : res.json({ estado: "error", descripcion: "No se pudo Obtener el carrito: "+idCarrito });
 }

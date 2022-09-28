@@ -1,6 +1,7 @@
 const productos = require("../../db/models/productos");
 const Contenedor = require("../../contenedores/contenedorMongoDB");
 const db = require("../../db/config");
+const { loggerConsola } = require("../../logs4js");
 
 module.exports = class ProductoDao extends Contenedor {
   constructor() {
@@ -8,24 +9,18 @@ module.exports = class ProductoDao extends Contenedor {
   }
 
   async getProducto(id) {
-    let resultado = await this.getRegister(id);
-    (resultado)
-      ? resultado
-      : false
+    return await this.getRegister(id);
   }
 
-  async addProducto(req, res) {
-    let resultado = await this.addRegister(req.body.data);
-    return resultado
+  async addProducto(data) {
+    return await this.addRegister(data);
   }
 
   async updateProducto(id,data) {
-    let resultado = await this.updateRegister(id, data);
-    return resultado
+    return await this.updateRegister(id, data);
   }
 
   async delProduct(id) {
-    let resultado = await this.delRegister(id);
-    return resultado
+    return await this.delRegister(id);
   }
 };
