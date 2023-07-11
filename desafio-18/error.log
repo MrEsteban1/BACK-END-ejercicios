@@ -1,0 +1,9 @@
+[2022-08-17T10:14:19.850] [ERROR] error - No se pudo conectar: bad auth : Authentication failed.
+[2022-09-03T16:51:05.011] [ERROR] error - ReferenceError: avatar is not defined
+    at C:\Users\20414724494\Desktop\Universo\CODERHOUSE\BACK-END\Tercera-entrega\passport\passport.js:33:39
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+[2022-09-21T20:18:29.700] [ERROR] error - No se pudo conectar: querySrv ESERVFAIL _mongodb._tcp.firstproyect.put2a.mongodb.net
+[2022-09-27T20:36:17.640] [ERROR] error - No se pudo conectar: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/
+[2022-09-27T21:12:12.497] [ERROR] error - No se pudo conectar: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/
+[2022-09-27T21:18:06.744] [ERROR] error - No se pudo conectar: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/
+[2022-09-27T21:22:57.089] [ERROR] error - No se pudo conectar: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/

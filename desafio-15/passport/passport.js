@@ -40,10 +40,7 @@ passport.use(
 passport.use(
   "login",
   new LocalStrategy(
-    {
-      passReqToCallback: true,
-    },
-    (req, username, password, done) => {
+    ( username, password, done) => {
       usuarios
         .getUser(username)
         .then((user) => {
@@ -53,24 +50,37 @@ passport.use(
           } else {
             console.log("holis", user);
             if (bcrypt.compareSync(password, user.password)) {
+              console.log("correcto")
               return done(null, user);
             } else {
+              console.log("incorrecto")
               return done(null, false);
             }
           }
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          console.log(e)
+          done(err)
+        });
     }
   )
 );
 
 passport.serializeUser((user, done) => {
+  console.log("user no", user)
   done(null, user.id);
 });
 
-passport.deserializeUser(async (user, done) => {
-  console.log("user");
-  done(null, user);
+passport.deserializeUser(async(id, done) => {
+  console.log("user", id)
+  try {
+    let resultado = await usuarios.getRegister(id)
+    console.log("resultado", resultado)
+    done(null, resultado);
+  } catch (error) {
+    console.log(error)
+  }
+  
 });
 
 module.exports = passport;
